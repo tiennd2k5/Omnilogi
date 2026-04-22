@@ -1,0 +1,28 @@
+{
+  "name": "omnilogi-backend",
+  "version": "1.0.0",
+  "description": "omnilogi-backend",
+  "keywords": [
+    "nodejs",
+    "react"
+  ],
+  "homepage": "https://github.com/tiennd2k5/omnilogi-backend#readme",
+  "bugs": {
+    "url": "https://github.com/tiennd2k5/omnilogi-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiennd2k5/omnilogi-backend.git"
+  },
+  "license": "ISC",
+  "author": "Tien",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
