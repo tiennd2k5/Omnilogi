@@ -100,7 +100,7 @@ Sau đó chạy file `.sql`.
 ## 3. Chạy backend
 
 ```bash id="q9as1m"
-npm run start
+npm run dev
 ```
 
 Server chạy:
