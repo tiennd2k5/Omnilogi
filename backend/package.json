@@ -4,23 +4,23 @@
   "description": "omnilogi-backend",
   "keywords": [
     "nodejs",
-    "react"
+    "express",
+    "mysql",
+    "backend",
+    "mvc"
   ],
-  "homepage": "https://github.com/tiennd2k5/omnilogi-backend#readme",
-  "bugs": {
-    "url": "https://github.com/tiennd2k5/omnilogi-backend/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tiennd2k5/omnilogi-backend.git"
-  },
+"homepage": "https://github.com/tiennd2k5/Omnilogi",
+"repository": {
+  "type": "git",
+  "url": "git+https://github.com/tiennd2k5/Omnilogi.git"
+},
   "license": "ISC",
   "author": "Tien",
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "dependencies": {
     "cors": "^2.8.6",
