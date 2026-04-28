@@ -1,14 +1,16 @@
+name: Omnilogi
+
 services:
   db-mysql:
     image: mysql:8.0.46
-    container_name: omnilogi
+    container_name: Omnilogi
     restart: always
     environment:
-      - MYSQL_DATABASE=omnilogi
+      - MYSQL_DATABASE=Omnilogi
       - MYSQL_ROOT_PASSWORD=123456
     ports:
       - "3307:3306"
     volumes:
-      - omnilogi-data:/var/lib/mysql
+      - Omnilogi-data:/var/lib/mysql
 volumes:
- omnilogi-data:
+ Omnilogi-data:
