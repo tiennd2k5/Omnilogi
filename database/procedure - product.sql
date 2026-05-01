@@ -9,11 +9,8 @@ DROP PROCEDURE IF EXISTS sp_get_all_products;
 DROP PROCEDURE IF EXISTS sp_get_store_revenue_stats;
 
 DELIMITER $$
-
 -- ============================================================
 -- THỦ TỤC 1: sp_get_all_products
--- Dùng cho trang chủ / dashboard / trang quản lý sản phẩm.
--- Có where + order by và join từ 2 bảng trở lên.
 -- ============================================================
 CREATE PROCEDURE sp_get_all_products(
     IN p_status        VARCHAR(50),
@@ -65,10 +62,10 @@ BEGIN
         AND (p_category_id IS NULL OR p.Category_ID = p_category_id)
         AND (
             v_search_keyword IS NULL
-            OR p.`Name` LIKE CONCAT('%', v_search_keyword, '%')
-            OR COALESCE(p.Brand, '') LIKE CONCAT('%', v_search_keyword, '%')
-            OR COALESCE(p.`Description`, '') LIKE CONCAT('%', v_search_keyword, '%')
-            OR c.Category_name LIKE CONCAT('%', v_search_keyword, '%')
+            OR p.`Name` COLLATE utf8mb4_0900_as_ci LIKE CONCAT('%', v_search_keyword, '%')
+            OR COALESCE(p.Brand, '') COLLATE utf8mb4_0900_as_ci LIKE CONCAT('%', v_search_keyword, '%')
+            OR COALESCE(p.`Description`, '') COLLATE utf8mb4_0900_as_ci LIKE CONCAT('%', v_search_keyword, '%')
+            OR c.Category_name COLLATE utf8mb4_0900_as_ci LIKE CONCAT('%', v_search_keyword, '%')
         )
     GROUP BY
         p.Product_ID,
@@ -84,6 +81,8 @@ BEGIN
     ORDER BY
         p.Product_ID DESC;
 END$$
+
+DELIMITER ;
 
 -- ==========================================
 -- TEST THỦ TỤC 1
