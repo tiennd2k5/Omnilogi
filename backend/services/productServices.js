@@ -1,4 +1,5 @@
 import {pool} from '../config/database.js';
+import { emptyToNull } from '../utils/normalize.js';
 
 //Get all products
 export const getAllProducts = async (query) => {
@@ -10,7 +11,7 @@ export const getAllProducts = async (query) => {
 
     const [rows] = await pool.query(
         `CALL sp_get_all_products(?, ?, ?)`,
-        [status, category_id, search]
+        [emptyToNull(status), emptyToNull(category_id), emptyToNull(search)]
     );
 
     return rows[0];
@@ -58,7 +59,7 @@ export const insertProduct = async (data) => {
             image_url,
             status,
             created_by_id
-        ]
+        ].map(emptyToNull)
     );
 
     return rows[0][0];
@@ -85,7 +86,7 @@ export const updateProduct = async (id, data) => {
             brand,
             image_url,
             status
-        ]
+        ].map(emptyToNull)
     );
 
     return rows[0][0];
@@ -105,7 +106,7 @@ export const deleteProduct = async (id) => {
 export const getRecommendations = async (productId, minConfidence = 40) => {
     const [rows] = await pool.query(
         `SELECT fn_recommend_products(?, ?) AS recommendations`,
-        [productId, minConfidence]
+        [productId, emptyToNull(minConfidence) ?? 40]
     );
 
     return rows[0];
