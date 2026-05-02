@@ -24,9 +24,9 @@ export const getShipmentById = async (req, res, next) => {
         const data = await shipmentService.getShipmentById(req.params.id);
 
         if (!data) {
-            const error = new Error('Không tìm thấy shipment');
-            error.statusCode = 404;
-            throw error;
+            const err = new Error('Không tìm thấy shipment');
+            err.statusCode = 404;
+            throw err;
         }
 
         return success(res, data, 'Lấy chi tiết shipment thành công');

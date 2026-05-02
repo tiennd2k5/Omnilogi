@@ -1,97 +1,104 @@
-# OmniLogi Backend API
+# OmniLogi
 
-Backend cho he thong **OmniLogi** - san thuong mai dien tu tich hop logistics.
+OmniLogi là project mô phỏng hệ thống thương mại điện tử tích hợp logistics. Repo hiện gồm backend Express API, frontend React/Vite và các file SQL cho MySQL.
 
-## Cong nghe su dung
+## Công nghệ sử dụng
 
-- Node.js
-- Express.js
-- MySQL 8
-- mysql2/promise
-- dotenv
-- cors
-- Docker
-- DBeaver
+- Backend: Node.js, Express.js, mysql2/promise, dotenv, cors
+- Frontend: React, React Router, Axios, Vite, ESLint
+- Database: MySQL 8
+- Công cụ chạy database: Docker Compose
 
-## Cau truc backend
+## Cấu trúc project
 
 ```text
-backend/
-|-- app.js
-|-- server.js
-|-- package.json
-|-- package-lock.json
-|-- .env
+Omnilogi/
+|-- backend/
+|   |-- app.js
+|   |-- server.js
+|   |-- package.json
+|   |-- config/
+|   |-- controllers/
+|   |-- middleware/
+|   |-- routes/
+|   |-- services/
+|   `-- utils/
 |
-|-- config/
-|   `-- database.js
+|-- frontend/
+|   |-- index.html
+|   |-- package.json
+|   |-- vite.config.js
+|   |-- public/
+|   `-- src/
+|       |-- api/
+|       |-- assets/
+|       |-- pages/
+|       |-- App.jsx
+|       `-- main.jsx
 |
-|-- controllers/
-|   |-- productController.js
-|   |-- storeController.js
-|   |-- customerController.js
-|   |-- shipmentController.js
-|   |-- driverController.js
-|   `-- reviewController.js
+|-- database/
+|   |-- OmniLogi_Database.sql
+|   |-- data_btl2.sql
+|   |-- procedure - product.sql
+|   |-- crud - product.sql
+|   |-- funct.sql
+|   `-- trigger.sql
 |
-|-- services/
-|   |-- productServices.js
-|   |-- storeServices.js
-|   |-- customerServices.js
-|   |-- shipmentServices.js
-|   |-- driverServices.js
-|   `-- reviewServices.js
-|
-|-- routes/
-|   |-- index.js
-|   |-- productRoutes.js
-|   |-- storeRoutes.js
-|   |-- customerRoutes.js
-|   |-- shipmentRoutes.js
-|   |-- driverRoutes.js
-|   `-- reviewRoutes.js
-|
-|-- middleware/
-|   `-- errorHandle.js
-|
-`-- utils/
-    `-- response.js
+|-- docker-compose.yml
+`-- README.md
 ```
 
-## Setup
+## Cài đặt
 
-1. Clone project:
+### 1. Clone project
 
 ```bash
 git clone https://github.com/tiennd2k5/Omnilogi.git
+cd Omnilogi
 ```
 
-2. Cai Node modules:
+### 2. Cài dependencies backend
 
 ```bash
 cd backend
 npm install
 ```
 
-3. Cai va mo Docker Desktop.
+Backend dùng file `backend/.env` với cấu hình mặc định:
 
-## Chay project
+```text
+PORT=8080
+DB_HOST=localhost
+DB_PORT=3307
+DB_USER=root
+DB_PASSWORD=123456
+DB_NAME=Omnilogi
+```
 
-### 1. Chay MySQL bang Docker
+### 3. Cài dependencies frontend
+
+```bash
+cd ../frontend
+npm install
+```
+
+Frontend đang gọi API tại:
+
+```text
+http://localhost:8080/api
+```
+
+## Chạy project
+
+### 1. Chạy MySQL bằng Docker
+
+Từ thư mục gốc project:
 
 ```bash
 docker compose up -d
 ```
 
-Kiem tra container:
-
-```bash
-docker ps
-```
-
-### 2. Import SQL
-
-Ket noi MySQL:
+Thông tin kết nối MySQL:
 
 ```text
 Host: localhost
@@ -101,67 +108,112 @@ Password: 123456
 Database: Omnilogi
 ```
 
-Import cac file SQL trong thu muc `database/`, gom schema, data, procedure, function va trigger.
+Import các file SQL trong thư mục `database/`, gồm schema, data, procedure/function và trigger.
 
-### 3. Chay backend
+### 2. Chạy backend
 
 ```bash
 cd backend
 npm run dev
 ```
 
-Server mac dinh:
+Backend mặc định chạy tại:
 
 ```text
 http://localhost:8080
 ```
 
+### 3. Chạy frontend
+
+Mở terminal khác:
+
+```bash
+cd frontend
+npm run dev
+```
+
+Frontend Vite mặc định chạy tại:
+
+```text
+http://localhost:5173
+```
+
+## Frontend
+
+Các màn hình chính:
+
+- `/`: danh sách sản phẩm, lọc theo danh mục/trạng thái, tìm kiếm, xem chi tiết và xem gợi ý mua kèm.
+- `/products`: quản lý sản phẩm, thêm/sửa/xóa sản phẩm, lọc và tìm kiếm.
+- `/tier`: tra cứu hạng thành viên của khách hàng theo ID hoặc username mẫu.
+- `/revenue`: thống kê doanh thu cửa hàng theo store, khoảng ngày và doanh thu tối thiểu.
+
 ## API Endpoints
 
-### Product Module
+### Product
 
 ```http
 GET    /api/products
+GET    /api/products?status=Approved
+GET    /api/products?category_id=1
+GET    /api/products?search=phone
 GET    /api/products/:id
 GET    /api/products/:id/recommendations
+GET    /api/products/:id/recommendations?min_confidence=40
 POST   /api/products
 PUT    /api/products/:id
 DELETE /api/products/:id
 ```
 
-### Store Module
+Ví dụ tạo sản phẩm:
+
+```json
+{
+  "category_id": 1,
+  "name": "Laptop ABC",
+  "desc": "Laptop văn phòng",
+  "brand": "ABC",
+  "image_url": "https://example.com/image.jpg",
+  "status": "Pending",
+  "created_by_id": 11
+}
+```
+
+### Store
 
 ```http
 GET /api/stores/revenue-stats
+GET /api/stores/revenue-stats?store_id=1
+GET /api/stores/revenue-stats?from_date=2026-01-01&to_date=2026-12-31
+GET /api/stores/revenue-stats?min_revenue=10000000
 ```
 
-### Customer Module
+### Customer
 
 ```http
 GET /api/customers/:id/tier
 ```
 
-### Shipment Module
+### Shipment
 
-Status hop le:
+Status hợp lệ:
 
 ```text
 Pending, Shipping, Delivered
 ```
 
 ```http
+GET    /api/shipments/statuses
 GET    /api/shipments
 GET    /api/shipments?status=Pending
 GET    /api/shipments?driver_id=16
 GET    /api/shipments?order_id=1
-GET    /api/shipments/statuses
 GET    /api/shipments/:id
 POST   /api/shipments
 PUT    /api/shipments/:id
 DELETE /api/shipments/:id
 ```
 
-Vi du tao shipment:
+Ví dụ tạo shipment:
 
 ```json
 {
@@ -171,9 +223,7 @@ Vi du tao shipment:
 }
 ```
 
-### Driver Module
-
-Dung de xem thong tin tai xe va kiem tra trigger shipment cap nhat `Total_deliveries`.
+### Driver
 
 ```http
 GET /api/drivers
@@ -181,22 +231,21 @@ GET /api/drivers/:id
 GET /api/drivers/:id/delivery-stats
 ```
 
-### Review Module
-
-Dung de tao review va kich hoat trigger `trg_Check_Review`.
+### Review
 
 ```http
 GET    /api/reviews
 GET    /api/reviews?customer_id=12
 GET    /api/reviews?order_id=1
-GET    /api/reviews/:id
+GET    /api/reviews?item_id=1
 GET    /api/reviews/reviewable-items
 GET    /api/reviews/reviewable-items?customer_id=12
+GET    /api/reviews/:id
 POST   /api/reviews
 DELETE /api/reviews/:id
 ```
 
-Vi du tao review:
+Ví dụ tạo review:
 
 ```json
 {
@@ -204,34 +253,30 @@ Vi du tao review:
   "item_id": 1,
   "customer_id": 12,
   "rating": 5,
-  "comment": "San pham tot",
+  "comment": "Sản phẩm tốt",
   "image": null
 }
 ```
 
-## API phuc vu trigger
+## Trigger và function
 
 ### Trigger shipment
 
-File `database/trigger.sql` co cac trigger:
+File `database/trigger.sql` có các trigger cập nhật `DRIVER.Total_deliveries` khi shipment có trạng thái `Delivered`:
 
-- `trg_UpdateDelivery_Insert`: chay khi insert vao `SHIPMENT`.
-- `trg_UpdateDelivery_Update`: chay khi update `SHIPMENT.Status`.
-- `trg_UpdateDelivery_Delete`: chay khi delete shipment da `Delivered`.
+- `trg_UpdateDelivery_Insert`
+- `trg_UpdateDelivery_Update`
+- `trg_UpdateDelivery_Delete`
 
-Cach test qua API:
-
-1. Xem so lan giao hang cua driver:
+Cách test nhanh:
 
 ```http
 GET /api/drivers/16/delivery-stats
-```
-
-2. Tao shipment status `Delivered`:
-
-```http
 POST /api/shipments
+GET /api/drivers/16/delivery-stats
 ```
+
+Payload:
 
 ```json
 {
@@ -241,50 +286,26 @@ POST /api/shipments
 }
 ```
 
-3. Xem lai:
-
-```http
-GET /api/drivers/16/delivery-stats
-```
-
 ### Trigger review
 
-Trigger `trg_Check_Review` chi cho review neu:
+Trigger `trg_Check_Review` chỉ cho tạo review khi:
 
-- `Item_ID` thuoc dung `Order_ID`.
-- `Order_ID` thuoc dung `Customer_ID`.
+- `Item_ID` thuộc đúng `Order_ID`.
+- `Order_ID` thuộc đúng `Customer_ID`.
 - `Order_status = Completed`.
 
-Cach test qua API:
-
-1. Lay danh sach item co the review:
+Cách test nhanh:
 
 ```http
 GET /api/reviews/reviewable-items
-```
-
-2. Tao review hop le bang mot item trong danh sach tren:
-
-```http
 POST /api/reviews
 ```
 
-3. Tao review sai `item_id/order_id/customer_id` de trigger tra loi:
-
-```json
-{
-  "order_id": 2,
-  "item_id": 9999,
-  "customer_id": 16,
-  "rating": 5
-}
-```
-
-Neu trigger bao loi `SIGNAL SQLSTATE '45000'`, backend se tra response loi `400`.
+Nếu dữ liệu không hợp lệ, MySQL trả `SIGNAL SQLSTATE '45000'` và backend trả response lỗi.
 
 ## Response Format
 
-### Success
+Success:
 
 ```json
 {
@@ -294,11 +315,29 @@ Neu trigger bao loi `SIGNAL SQLSTATE '45000'`, backend se tra response loi `400`
 }
 ```
 
-### Error
+Error:
 
 ```json
 {
   "success": false,
   "message": "Error message"
 }
+```
+
+## Kiểm tra nhanh
+
+Frontend:
+
+```bash
+cd frontend
+npm run lint
+npm run build
+```
+
+Backend:
+
+```bash
+cd backend
+node --check app.js
+node --check server.js
 ```

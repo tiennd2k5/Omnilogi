@@ -15,9 +15,9 @@ export const getDriverById = async (req, res, next) => {
         const data = await driverService.getDriverById(req.params.id);
 
         if (!data) {
-            const error = new Error('Không tìm thấy tài xế');
-            error.statusCode = 404;
-            throw error;
+            const err = new Error('Không tìm thấy tài xế');
+            err.statusCode = 404;
+            throw err;
         }
 
         return success(res, data, 'Lấy thông tin tài xế thành công');
@@ -31,9 +31,9 @@ export const getDriverDeliveryStats = async (req, res, next) => {
         const data = await driverService.getDriverDeliveryStats(req.params.id);
 
         if (!data) {
-            const error = new Error('Không tìm thấy tài xế');
-            error.statusCode = 404;
-            throw error;
+            const err = new Error('Không tìm thấy tài xế');
+            err.statusCode = 404;
+            throw err;
         }
 
         return success(res, data, 'Lấy thống kê giao hàng của tài xế thành công');

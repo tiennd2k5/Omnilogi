@@ -127,9 +127,9 @@ INSERT INTO CUSTOMER (User_ID) VALUES (11),(12),(13),(14),(15);
 -- 6. DRIVER
 -- ============================================================
 INSERT INTO DRIVER (User_ID, License_num, Vehicle_type, Driver_status, Total_deliveries) VALUES
-(16,'BX001-2020','Xe máy',     'Available', 4),
+(16,'BX001-2020','Xe máy',     'Available', 3),
 (17,'BX002-2021','Xe máy',     'Busy',      3),
-(18,'BX003-2019','Ô tô',      'Available',  2),
+(18,'BX003-2019','Ô tô',      'Available',  1),
 (19,'BX004-2022','Xe máy',     'Available', 2),
 (20,'BX005-2020','Xe tải nhỏ','Busy',       3);
 
@@ -547,6 +547,10 @@ INSERT INTO REVIEW (Order_ID, Item_ID, Customer_ID, Rating, `Comment`, Review_da
 (12, 1, 12, 5, N'Samsung S24 Ultra chụp ảnh đẹp.', '2025-10-23'),
 (12, 2, 12, 4, N'Ốp lưng chắc chắn.', '2025-10-23'),
 (12, 3, 12, 5, N'Cáp sạc dùng tốt.', '2025-10-23'),
+-- Order 13 (Chuột + Bàn phím + Màn hình)
+(13, 1, 13, 4, N'Chuột Logitech dùng tốt, pin lâu.', '2025-11-05'),
+(13, 2, 13, 5, N'Bàn phím cơ gõ rất thích, đèn đẹp.', '2025-11-05'),
+(13, 3, 13, 5, N'Màn hình LG màu sắc chuẩn, rất hài lòng.', '2025-11-05'),
 -- Order 14 (Socola + Snack)
 (14, 1, 14, 5, N'Socola ngon, đáng tiền.', '2025-11-18'),
 (14, 2, 14, 4, N'Snack ăn khá ổn.', '2025-11-18'),

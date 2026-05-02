@@ -15,9 +15,9 @@ export const getReviewById = async (req, res, next) => {
         const data = await reviewService.getReviewById(req.params.id);
 
         if (!data) {
-            const error = new Error('Không tìm thấy review');
-            error.statusCode = 404;
-            throw error;
+            const err = new Error('Không tìm thấy review');
+            err.statusCode = 404;
+            throw err;
         }
 
         return success(res, data, 'Lấy chi tiết review thành công');

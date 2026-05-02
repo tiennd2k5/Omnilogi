@@ -56,8 +56,6 @@ export const getAllReviews = async (query) => {
 };
 
 export const getReviewById = async (id) => {
-    const customerId = emptyToNull(customer_id);
-
     const [rows] = await pool.query(
         `SELECT Review_ID,
                 Order_ID,
@@ -77,6 +75,7 @@ export const getReviewById = async (id) => {
 
 export const getReviewableItems = async (query) => {
     const { customer_id } = query;
+    const customerId = emptyToNull(customer_id);
 
     const [rows] = await pool.query(
         `SELECT oi.Item_ID,
